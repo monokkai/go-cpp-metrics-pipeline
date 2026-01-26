@@ -1,142 +1,138 @@
-# PulseGate — пошаговая карта проекта (Go + C++ + Docker + Kubernetes + Prometheus)
-
-> Формат: **чекбоксы + порядок**. Идёшь строго сверху вниз. Не прыгаешь.
-> Это roadmap как у взрослого SWE, не туториал для джунов.
-
+# PulseGate — Step-by-Step Project Roadmap (Go + C++ + Docker + Kubernetes + Prometheus)
 ---
 
-## 🧭 ЭТАП 0. МЕНТАЛЬНАЯ ПОДГОТОВКА (НЕ ПРОПУСКАТЬ)
+## 🧭 STAGE 0. MENTAL PREPARATION (DO NOT SKIP)
 
-* [ ] Понять цель проекта: **показать SWE-мышление, а не количество кода**
-* [ ] Принять правило: *сначала локально → потом Docker → потом Kubernetes → потом Prometheus*
-* [ ] Создать пустой GitHub-репозиторий
+* [x] Understand the goal of the project: **demonstrate SWE thinking, not amount of code**
+* [x] Accept the rule: *local first → then Docker → then Kubernetes → then Prometheus*
+* [x] Create an empty GitHub repository
 
-    * Название: `go-cpp-metrics-pipeline`
-    * Description заполнить сразу
+    * Name: `go-cpp-metrics-pipeline`
+    * Fill in the description immediately
 
-📎 Полезно:
+📎 Useful:
 
 * [https://roadmap.sh/backend](https://roadmap.sh/backend)
 
 ---
 
-## 🗂️ ЭТАП 1. СТРУКТУРА ПРОЕКТА (СКЕЛЕТ)
+## 🗂️ STAGE 1. PROJECT STRUCTURE (SKELETON)
 
-* [x] Создать корневую папку проекта
-* [x] Инициализировать git (`git init`)
-* [x] Создать базовую структуру папок:
+* [x] Create the project root directory
+* [x] Initialize git (`git init`)
+* [x] Create the base folder structure:
 
     * [x] `go-api/`
     * [x] `cpp-worker/`
     * [x] `k8s/`
     * [x] `prometheus/`
     * [x] `docs/`
-* [x] Создать `README.md` (пока пустой)
+* [x] Create `README.md` (empty for now)
 
-📎 Смотреть:
+📎 Reference:
 
 * [https://github.com/golang-standards/project-layout](https://github.com/golang-standards/project-layout)
 
 ---
 
-## 🟦 ЭТАП 2. GO API — БАЗА
+## 🟦 STAGE 2. GO API — FOUNDATION
 
-### 2.1 Инициализация Go-проекта
+### 2.1 Go project initialization
 
-* [ ] Установить версию Go (проверить `go version`)
-* [ ] Инициализировать Go-модуль
-* [ ] Создать `cmd/` и `internal/`
-* [ ] Написать минимальный HTTP-сервер
-* [ ] Запустить локально
+* [ ] Install Go and verify version (`go version`)
+* [ ] Initialize Go module
+* [ ] Create `cmd/` and `internal/`
+* [ ] Implement a minimal HTTP server
+* [ ] Run it locally
 
-📎 Смотреть:
+📎 Reference:
 
 * [https://go.dev/doc/tutorial/getting-started](https://go.dev/doc/tutorial/getting-started)
 * [https://pkg.go.dev/net/http](https://pkg.go.dev/net/http)
 
 ---
 
-### 2.2 Метрики в Go (Prometheus client)
+### 2.2 Metrics in Go (Prometheus client)
 
-* [ ] Подключить Prometheus Go client
-* [ ] Создать `/metrics` endpoint
-* [ ] Добавить 1–2 кастомные метрики (counter / gauge)
-* [ ] Проверить `/metrics` в браузере
+* [ ] Add Prometheus Go client
+* [ ] Expose `/metrics` endpoint
+* [ ] Add 1–2 custom metrics (counter / gauge)
+* [ ] Verify `/metrics` in browser
 
-📎 Смотреть:
+📎 Reference:
 
 * [https://prometheus.io/docs/guides/go-application/](https://prometheus.io/docs/guides/go-application/)
 
 ---
 
-## 🟥 ЭТАП 3. C++ WORKER — БАЗА
+## 🟥 STAGE 3. C++ WORKER — FOUNDATION
 
-### 3.1 Структура и сборка
+### 3.1 Structure and build
 
-* [ ] Установить CMake
-* [ ] Создать `src/` папку
-* [ ] Создать `CMakeLists.txt`
-* [ ] Написать минимальный `main.cpp`
-* [ ] Собрать бинарник локально
+* [ ] Install CMake
+* [ ] Create `src/` directory
+* [ ] Create `CMakeLists.txt`
+* [ ] Implement minimal `main.cpp`
+* [ ] Build binary locally
 
-📎 Смотреть:
+📎 Reference:
 
 * [https://cmake.org/cmake/help/latest/guide/tutorial/index.html](https://cmake.org/cmake/help/latest/guide/tutorial/index.html)
 
 ---
 
-### 3.2 Метрики в C++
+### 3.2 Metrics in C++
 
-* [ ] Подключить `prometheus-cpp`
-* [ ] Создать HTTP endpoint для метрик
-* [ ] Добавить 1 counter или histogram
-* [ ] Проверить `/metrics`
+* [ ] Integrate `prometheus-cpp`
+* [ ] Expose HTTP endpoint for metrics
+* [ ] Add 1 counter or histogram
+* [ ] Verify `/metrics`
 
-📎 Смотреть:
+📎 Reference:
 
 * [https://github.com/jupp0r/prometheus-cpp](https://github.com/jupp0r/prometheus-cpp)
 
 ---
 
-## 🐳 ЭТАП 4. DOCKER (СНАЧАЛА БЕЗ K8S)
+## 🐳 STAGE 4. DOCKER (WITHOUT K8S FIRST)
 
-### 4.1 Docker для Go
+### 4.1 Docker for Go
 
-* [ ] Создать Dockerfile
-* [ ] Использовать multi-stage build
-* [ ] Собрать образ
-* [ ] Запустить контейнер
-* [ ] Проверить `/metrics`
+* [ ] Create Dockerfile
+* [ ] Use multi-stage build
+* [ ] Build image
+* [ ] Run container
+* [ ] Verify `/metrics`
 
-📎 Смотреть:
+📎 Reference:
 
 * [https://docs.docker.com/build/building/multi-stage/](https://docs.docker.com/build/building/multi-stage/)
 
 ---
 
-### 4.2 Docker для C++
+### 4.2 Docker for C++
 
-* [ ] Создать Dockerfile
+* [ ] Create Dockerfile
 * [ ] Multi-stage build (build → runtime)
-* [ ] Собрать образ
-* [ ] Запустить контейнер
-* [ ] Проверить `/metrics`
+* [ ] Build image
+* [ ] Run container
+* [ ] Verify `/metrics`
 
-📎 Смотреть:
+📎 Reference:
 
 * [https://docs.docker.com/language/cpp/](https://docs.docker.com/language/cpp/)
 
 ---
 
-## ☸️ ЭТАП 5. KUBERNETES (LOCAL CLUSTER)
+## ☸️ STAGE 5. KUBERNETES (LOCAL CLUSTER)
 
-### 5.1 Подготовка
+### 5.1 Preparation
 
-* [ ] Проверить `kubectl version`
-* [ ] Проверить кластер (kind / minikube)
-* [ ] Загрузить Docker-образы в кластер
+* [ ] Verify `kubectl version`
+* [ ] Verify cluster (kind / minikube)
+* [ ] Load Docker images into the cluster
 
-📎 Смотреть:
+📎 Reference:
 
 * [https://kind.sigs.k8s.io/docs/user/quick-start/](https://kind.sigs.k8s.io/docs/user/quick-start/)
 * [https://minikube.sigs.k8s.io/docs/start/](https://minikube.sigs.k8s.io/docs/start/)
@@ -145,95 +141,95 @@
 
 ### 5.2 Deployment + Service
 
-* [ ] Deployment для Go API
-* [ ] Service для Go API
-* [ ] Deployment для C++ worker
-* [ ] Service для C++ worker
-* [ ] Проверить Pods
-* [ ] Сделать port-forward
+* [ ] Deployment for Go API
+* [ ] Service for Go API
+* [ ] Deployment for C++ worker
+* [ ] Service for C++ worker
+* [ ] Verify Pods
+* [ ] Use port-forward
 
-📎 Смотреть:
+📎 Reference:
 
 * [https://kubernetes.io/docs/concepts/workloads/controllers/deployment/](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 * [https://kubernetes.io/docs/concepts/services-networking/service/](https://kubernetes.io/docs/concepts/services-networking/service/)
 
 ---
 
-## 📊 ЭТАП 6. PROMETHEUS
+## 📊 STAGE 6. PROMETHEUS
 
-### 6.1 Установка
+### 6.1 Installation
 
-* [ ] Установить Helm
-* [ ] Добавить Prometheus Helm repo
-* [ ] Установить Prometheus в кластер
+* [ ] Install Helm
+* [ ] Add Prometheus Helm repo
+* [ ] Install Prometheus into the cluster
 
-📎 Смотреть:
+📎 Reference:
 
 * [https://prometheus-community.github.io/helm-charts](https://prometheus-community.github.io/helm-charts)
 
 ---
 
-### 6.2 Сбор метрик
+### 6.2 Metrics scraping
 
-* [ ] Настроить scrape для Go API
-* [ ] Настроить scrape для C++ worker
-* [ ] Проверить Targets в Prometheus UI
-* [ ] Выполнить 1–2 PromQL запроса
+* [ ] Configure scrape for Go API
+* [ ] Configure scrape for C++ worker
+* [ ] Verify Targets in Prometheus UI
+* [ ] Execute 1–2 PromQL queries
 
-📎 Смотреть:
+📎 Reference:
 
 * [https://prometheus.io/docs/prometheus/latest/configuration/configuration/](https://prometheus.io/docs/prometheus/latest/configuration/configuration/)
 * [https://prometheus.io/docs/prometheus/latest/querying/basics/](https://prometheus.io/docs/prometheus/latest/querying/basics/)
 
 ---
 
-## 🧪 ЭТАП 7. ПРОВЕРКА И ОТЛАДКА
+## 🧪 STAGE 7. VERIFICATION AND DEBUGGING
 
-* [ ] Проверить логи pod-ов
-* [ ] Убить pod и проверить рестарт
-* [ ] Проверить метрики после рестарта
+* [ ] Check pod logs
+* [ ] Kill a pod and verify restart
+* [ ] Verify metrics after restart
 
-📎 Смотреть:
+📎 Reference:
 
 * [https://kubernetes.io/docs/tasks/debug/](https://kubernetes.io/docs/tasks/debug/)
 
 ---
 
-## 📝 ЭТАП 8. README (ОЧЕНЬ ВАЖНО)
+## 📝 STAGE 8. README (VERY IMPORTANT)
 
-* [ ] Описание проекта
-* [ ] Architecture diagram (ASCII или картинка)
+* [ ] Project description
+* [ ] Architecture diagram (ASCII or image)
 * [ ] Tech stack
-* [ ] Как запустить
-* [ ] Что бы улучшил дальше
+* [ ] How to run
+* [ ] Possible future improvements
 
-📎 Смотреть:
+📎 Reference:
 
 * [https://github.com/matiassingers/awesome-readme](https://github.com/matiassingers/awesome-readme)
 
 ---
 
-## 🏁 ФИНАЛЬНЫЙ ЧЕК
+## 🏁 FINAL CHECK
 
-* [ ] Проект запускается одной командой
-* [ ] Метрики видны в Prometheus
-* [ ] README выглядит как у internal tool
-* [ ] Репозиторий не стыдно показать на собесе
+* [ ] Project runs with a single command
+* [ ] Metrics are visible in Prometheus
+* [ ] README looks like an internal tool
+* [ ] Repository is interview-ready
 
 ---
 
-## 🚀 ДОПОЛНИТЕЛЬНО (ПО ЖЕЛАНИЮ)
+## 🚀 OPTIONAL (EXTRA)
 
 * [ ] Grafana
-* [ ] gRPC между Go и C++
+* [ ] gRPC between Go and C++
 * [ ] Horizontal Pod Autoscaler
 * [ ] Load testing
 
-📎 Смотреть:
+📎 Reference:
 
 * [https://grafana.com/docs/](https://grafana.com/docs/)
 * [https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
 
 ---
 
-💡 **Если ты прошёл всё до конца — ты уже Middle SWE по мышлению.**
+💡 **If you complete everything — you already think like a Middle SWE.**

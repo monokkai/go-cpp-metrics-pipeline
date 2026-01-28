@@ -10,13 +10,11 @@ func main() {
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
 
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "This is the '/' base route!",
-		})
-	})
-	r.GET("/metrics", routes.MetricsHandler)
+	r.GET("/", routes.MetricsHandler)
+	r.GET("/metrics", routes.ProxyToServiceHandler)
+	r.GET("/health", routes.GetHealthService)
 
 	println("Server is running on port http://localhost:8080")
+	println("C++ metrics available at: http://localhost:3000/metrics")
 	r.Run(":8080")
 }

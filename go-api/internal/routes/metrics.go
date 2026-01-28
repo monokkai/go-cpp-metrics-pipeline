@@ -2,43 +2,38 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promauto"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"time"
+	"io"
+	"net/http"
 )
 
-type Metrics struct {
-	opsProcessed prometheus.Counter
-}
-
-func newMetrics(reg prometheus.Registerer) *Metrics {
-	m := &Metrics{
-		opsProcessed: promauto.With(reg).NewCounter(prometheus.CounterOpts{
-			Name: "go-cpp-worker-metrics",
-			Help: "The total number of processed events",
-		}),
-	}
-
-	return m
-}
-
-func recordMetrics(m *Metrics) {
-	go func() {
-		for {
-			m.opsProcessed.Inc()
-			time.Sleep(2 * time.Second)
-		}
-	}()
-}
-
 func MetricsHandler(c *gin.Context) {
-	reg := prometheus.NewRegistry()
-	reg.MustRegister(prometheus.NewGoCollector(), prometheus.NewProcessCollector(prometheus.ProcessCollectorOpts{}))
+	c.JSON(200, gin.H{
+		"message":     "Go API Service",
+		"cpp_metrics": "http://localhost:3000/metrics",
+	})
+}
 
-	m := newMetrics(reg)
-	recordMetrics(m)
+func ProxyToServiceHandler(c *gin.Context) {
+	resp, err := http.Get("http://localhost:3000/metrics")
+	if err != nil {
+		c.JSON(500, gin.H{
+			"error": err.Error(),
+		})
+	}
+	defer resp.Body.Close()
 
-	handler := promhttp.HandlerFor(reg, promhttp.HandlerOpts{})
-	handler.ServeHTTP(c.Writer, c.Request)
+	body, _ := io.ReadAll(resp.Body)
+	c.Data(resp.StatusCode, resp.Header.Get("Content-Type"), body)
+}
+
+func GetHealthService(c *gin.Context) {
+	_, err := http.Get("http://localhost:3000/metrics")
+	if err != nil {
+		c.JSON(503, gin.H{"status": "unhealthy", "cpp_worker": "down"})
+		return
+	}
+	c.JSON(200, gin.H{
+		"status":     "healthy",
+		"cpp_worker": "up",
+	})
 }

@@ -1,0 +1,6 @@
+[requires]
+prometheus-cpp/1.2.0
+
+[generators]
+cmake_find_package
+# or CMakeDeps for conan >= 1.50

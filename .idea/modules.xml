@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/go-cpp-worker-metrics.iml" filepath="$PROJECT_DIR$/.idea/go-cpp-worker-metrics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/go_cpp_worker_metrics.iml" filepath="$PROJECT_DIR$/.idea/go_cpp_worker_metrics.iml" />
     </modules>
   </component>
 </project>

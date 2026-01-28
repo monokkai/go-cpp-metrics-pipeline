@@ -15,6 +15,7 @@ func MetricsHandler(c *gin.Context) {
 
 func ProxyToServiceHandler(c *gin.Context) {
 	resp, err := http.Get("http://localhost:3000/metrics")
+
 	if err != nil {
 		c.JSON(500, gin.H{
 			"error": err.Error(),
@@ -28,10 +29,12 @@ func ProxyToServiceHandler(c *gin.Context) {
 
 func GetHealthService(c *gin.Context) {
 	_, err := http.Get("http://localhost:3000/metrics")
+
 	if err != nil {
 		c.JSON(503, gin.H{"status": "unhealthy", "cpp_worker": "down"})
 		return
 	}
+
 	c.JSON(200, gin.H{
 		"status":     "healthy",
 		"cpp_worker": "up",

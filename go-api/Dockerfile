@@ -1,15 +1,22 @@
-FROM golang:1.24
+FROM golang:1.24-alpine AS builder
 
 WORKDIR /app
 
-COPY go.mod go.sum ./
+RUN apk add --no-cache git
 
+COPY go-api/go.mod go-api/go.sum ./
 RUN go mod download
 
-COPY *.go ./
+COPY go-api/ .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /docker-gs-ping
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o app ./cmd
+
+FROM gcr.io/distroless/base-debian12
+
+WORKDIR /app
+
+COPY --from=builder /app/app /app/app
 
 EXPOSE 8080
 
-CMD ["/cmd"]
+CMD ["/app/app"]

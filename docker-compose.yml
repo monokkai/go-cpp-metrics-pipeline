@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  go-api:
+    build:
+      context: .
+      dockerfile: go-api/Dockerfile
+    container_name: go-api
+    ports:
+      - "8080:8080"
+    restart: unless-stopped

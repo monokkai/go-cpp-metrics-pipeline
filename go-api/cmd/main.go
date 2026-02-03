@@ -27,6 +27,6 @@ func main() {
 	r.GET("/health", routes.GetHealthService)
 
 	println(colorYellow + "Server is running on port http://localhost:8080" + colorReset)
-	println(colorBlue + "C++ metrics available at: http://localhost:3000/metrics" + colorReset)
+	println(colorBlue + "C++ metrics available at: http://localhost:8080/metrics" + colorReset)
 	r.Run(":8080")
 }

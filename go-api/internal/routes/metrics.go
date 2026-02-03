@@ -6,6 +6,8 @@ import (
 	"net/http"
 )
 
+func getCppWorker()
+
 func MetricsHandler(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"message":     "Go API Service",

@@ -1,25 +1,13 @@
-FROM alpine:3.17.0 AS build
-RUN apk update && \
-    apk add --no-cache \
-        build-base=0.5-r3 \
-        cmake=3.24.3-r0 \
-        boost1.80-dev=1.80.0-r3
+FROM alpine:latest
 
-WORKDIR /simplehttpserver
-COPY src/ ./src/
-COPY CMakeLists.txt .
-WORKDIR /simplehttpserver/build
-RUN cmake -DCMAKE_BUILD_TYPE=Release .. && \
-    cmake --build . --parallel 2
+WORKDIR /app
 
-FROM alpine:3.17.0
-RUN apk update && \
-    apk add --no-cache \
-    libstdc++=12.2.1_git20220924-r4 \
-    boost1.80-program_options=1.80.0-r3
-RUN addgroup -S shs && adduser -S shs -G shs
-USER shs
-COPY --chown=shs:shs --from=build \
-    ./simplehttpserver/build/src/simplehttpserver \
-    ./app/
-ENTRYPOINT [ "./cpp-worker" ]
+RUN apk add --no-cache g++ musl-dev
+
+COPY src/ .
+
+RUN g++ -std=c++11 -O3 main.cpp -o cpp-server -pthread
+
+EXPOSE 3000
+
+CMD ["./cpp-server"]

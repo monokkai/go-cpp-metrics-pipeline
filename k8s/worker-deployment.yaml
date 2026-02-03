@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cpp-worker-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cpp-worker
+  template:
+    metadata:
+      labels:
+        app: cpp-worker
+    spec:
+      containers:
+        - name: cpp-worker
+          image: go-cpp-worker-metrics-cpp-worker:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000

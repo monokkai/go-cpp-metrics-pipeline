@@ -4,14 +4,14 @@ WORKDIR /app
 
 RUN apk add --no-cache git
 
-COPY go-api/go.mod go-api/go.sum ./
+COPY go.mod go.sum ./
 RUN go mod download
 
-COPY go-api/ .
+COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o app ./cmd
 
-FROM gcr.io/distroless/base-debian12
+FROM gcr.io/distroless/base-debian12:latest
 
 WORKDIR /app
 
